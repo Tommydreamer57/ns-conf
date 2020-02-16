@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, ScrollView, Switch, Text, TextInput, View } from 'react-native';
-import SessionTile from '../components/SessionTile';
+import EventTile from '../components/EventTile';
 import { StorageConsumer } from '../storage/StorageProvider';
 import styles, { COLORS } from '../styles/styles';
 import filterSessions from '../utils/filters';
@@ -83,9 +83,9 @@ export default class FeedbackSelect extends Component {
                                             context,
                                         }}
                                         renderItem={({ item: session }) => (
-                                            <SessionTile
+                                            <EventTile
                                                 display={currentFilter(session)}
-                                                session={session}
+                                                event={session}
                                                 navigation={navigation}
                                                 onPress={() => navigate("Feedback", {
                                                     id: session.id,

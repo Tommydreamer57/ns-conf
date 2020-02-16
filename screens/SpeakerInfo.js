@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { FlatList, Image, ScrollView, Text, View } from 'react-native';
-import SessionTile from '../components/SessionTile';
+import { ScrollView, Text, View } from 'react-native';
 import { StorageContext } from '../storage/StorageProvider';
 import styles from '../styles/styles';
 
@@ -51,10 +50,10 @@ export default function SpeakerInfo({
                         styles.marginBottomMedium,
                     ]} >Sessions</Text>
                     {events.map(session => (
-                        <SessionTile
+                        <EventTile
                             key={session.title}
                             navigation={navigation}
-                            session={session}
+                            events={session}
                             renderTimeInsteadOfSpeaker={true}
                         />
                     ))}

@@ -1,53 +1,49 @@
 import React from 'react';
 import { FlatList, ScrollView, View } from 'react-native';
-import SessionTile from '../components/SessionTile';
-import { StorageConsumer } from '../storage/StorageProvider';
+import EventTile from '../components/EventTile';
 import styles from '../styles/styles';
-import { extractSessionType } from '../utils/sessions';
 
 SelectBreakout.navigationOptions = ({
     route: {
         params: {
-            sessionName = '',
+            breakout: {
+                title,
+            },
         },
     },
-}) => ({
-    title: extractSessionType({ sessiontype: sessionName }),
-});
+}) => ({ title });
 
 export default function SelectBreakout({
     navigation,
     route: {
         params: {
-            sessionName,
-            id,
+            breakout: {
+                title,
+                sessions,
+                selectedSession,
+            },
         },
     },
 }) {
+
+    const {
+        title: selectedTitle,
+    } = selectedSession || {};
+
     return (
-        <StorageConsumer>
-            {({
-                breakouts: {
-                    [sessionName]: breakouts = [],
-                },
-                scheduleArray = [],
-            }) => (
-                    <ScrollView>
-                        <View style={styles.view}>
-                            <FlatList
-                                keyExtractor={({ id }) => id}
-                                data={breakouts}
-                                renderItem={({ item: session }) => (
-                                    <SessionTile
-                                        navigation={navigation}
-                                        session={session}
-                                        addedToSchedule={scheduleArray.some(({ selectedSession: { title } = {} }) => title === session.title)}
-                                    />
-                                )}
-                            />
-                        </View>
-                    </ScrollView>
-                )}
-        </StorageConsumer>
+        <FlatList
+            contentContainerStyle={styles.view}
+            keyExtractor={({ title }) => title}
+            data={sessions}
+            renderItem={({ item: session }) => (
+                <EventTile
+                    event={session}
+                    navigation={navigation}
+                    addedToSchedule={title === selectedTitle}
+                    doNotRenderTime={true}
+                    highlightLocation={true}
+                />
+            )}
+        />
     );
 }

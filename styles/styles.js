@@ -103,6 +103,7 @@ export default StyleSheet.create({
     // small
     text: {
         fontSize: SIZES.small,
+        fontWeight: 'normal',
     },
     speakerphoto: {
         height: Window.width * 0.7,
@@ -195,22 +196,20 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: COLORS.darkGray,
     },
-    breakoutHeader: {
+    sessionHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: Window.width - SIZES.large * 2 - SIZES.xxSmall - SIZES.small * 2 - 2,
     },
     sessionTileBar: {
         height: '100%',
         width: SIZES.xxSmall,
         marginRight: SIZES.small,
     },
-    sessionTile: {
+    eventTile: {
         flexDirection: 'row',
-        // width: Window.width - SIZES.large * 2,
-    },
-    socialTile: {
-        flexDirection: 'row',
+        width: Window.width - SIZES.large * 2 - SIZES.xxSmall - SIZES.small * 2 - 2,
         // borderWidth: 1,
         // borderColor: COLORS.blue,
         // borderRadius: SIZES.xxSmall,

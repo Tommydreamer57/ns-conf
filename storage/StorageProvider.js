@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { asyncPipe, asyncTap } from '../utils/pipe';
 import getSpeakersFromSchedule from './get-speakers-from-schedule';
 import { fetchSchedule, selectOrUnselectBreakout } from './service';
+import mapDaysThroughSchedule from './map-days-through-schedule';
 
 export const StorageContext = createContext();
 
@@ -17,6 +18,7 @@ export default function StorageProvider({
     useEffect(() => {
         asyncPipe(
             fetchSchedule(),
+            mapDaysThroughSchedule,
             asyncTap(setSchedule),
             getSpeakersFromSchedule,
             asyncTap(setSpeakers),

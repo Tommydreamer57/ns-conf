@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import AllSessions from './screens/AllSessions';
 import AllSpeakers from './screens/AllSpeakers';
 import Feedback from './screens/Feedback';
 import FeedbackSelect from './screens/FeedbackSelect';
@@ -15,7 +14,6 @@ import { COLORS } from './styles/styles';
 
 const views = Object.entries({
     Home,
-    AllSessions,
     AllSpeakers,
     Schedule,
     SelectBreakout,
@@ -29,7 +27,7 @@ const views = Object.entries({
 
 const Stack = createStackNavigator();
 
-export default function AppNavigator() {
+export default function Navigation() {
     return (
         <Stack.Navigator
             initialRouteName="Home"

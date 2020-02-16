@@ -21,7 +21,7 @@ export default function AllSpeakers({
 
     return (
         <FlatList
-            style={styles.view}
+            contentContainerStyle={styles.view}
             keyExtractor={({ name }) => name}
             data={Object.values(speakers).sort(({ name: a }, { name: b }) => a > b)}
             extraData={{ input }}

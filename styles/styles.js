@@ -66,7 +66,7 @@ export default StyleSheet.create({
         paddingBottom: SIZES.xxLarge * 3,
         paddingLeft: SIZES.large,
         paddingRight: SIZES.large,
-        flex: 1,
+        // flex: 1,
         flexGrow: 1,
     },
     // extra large bold

@@ -41,6 +41,5 @@ const reduceSpeakers = speakers => speakers.reduce((speakers, { name, bio, event
 export default schedule => pipe(
     schedule,
     getSpeakerList,
-    tap(list => Alert.alert(list.map(({ name }) => name).join())),
     reduceSpeakers,
 );

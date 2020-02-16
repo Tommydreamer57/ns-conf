@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
+import EventTile from '../components/EventTile';
 import { StorageContext } from '../storage/StorageProvider';
 import styles from '../styles/styles';
 
@@ -15,9 +16,9 @@ export default function SpeakerInfo({
 }) {
     const {
         speakers: {
-            [name]: speaker,
             [name]: {
                 bio,
+                photo,
                 events,
             },
         } = {},
@@ -25,36 +26,40 @@ export default function SpeakerInfo({
     return (
         <ScrollView>
             <View style={styles.view}>
-                {/* <Image
+                <Image
                     style={styles.speakerphoto}
                     source={{
-                        uri: speakerphoto
-                            ||
-                            photo
-                            ||
-                            'https://www.nycc.edu/themes/nycc/images/default_profile.jpg'
+                        uri: photo || 'https://www.nycc.edu/themes/nycc/images/default_profile.jpg'
                     }}
-                /> */}
-                <Text style={[
-                    styles.h1,
-                    styles.marginBottomLarge,
-                ]} >{name}</Text>
-                <Text style={[
-                    styles.text,
-                    styles.marginBottomXLarge,
-                ]} >{bio}</Text>
+                />
+                <Text
+                    style={[
+                        styles.h1,
+                        styles.marginBottomLarge,
+                    ]}
+                >{name}</Text>
+                {bio ? (
+                    <Text
+                        style={[
+                            styles.text,
+                            styles.marginBottomXLarge,
+                        ]}
+                    >{bio}</Text>
+                ) : null}
                 <View>
-                    <Text style={[
-                        styles.h2,
-                        styles.marginTopMedium,
-                        styles.marginBottomMedium,
-                    ]} >Sessions</Text>
+                    <Text
+                        style={[
+                            styles.h2,
+                            styles.marginTopMedium,
+                            styles.marginBottomMedium,
+                        ]}
+                    >Sessions</Text>
                     {events.map(session => (
                         <EventTile
                             key={session.title}
                             navigation={navigation}
-                            events={session}
-                            renderTimeInsteadOfSpeaker={true}
+                            event={session}
+                            renderDayInsteadOfSpeaker={true}
                         />
                     ))}
                 </View>

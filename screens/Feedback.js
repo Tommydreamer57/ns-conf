@@ -3,7 +3,6 @@ import { Slider, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import KeyboardView from '../components/KeyboardView';
 import { StorageConsumer } from '../storage/StorageProvider';
 import styles, { COLORS } from '../styles/styles';
-import { extractSessionDay } from '../utils/sessions';
 
 export default class Feedback extends Component {
 
@@ -113,10 +112,10 @@ export default class Feedback extends Component {
                                         styles.h2,
                                         styles.marginBottomXxSmall,
                                     ]} >{speakername}</Text>
-                                    <Text style={[
+                                    {/* <Text style={[
                                         styles.h4,
                                         styles.marginBottomXxLarge,
-                                    ]} >{extractSessionDay({ sessiontype })} {sessiontime}</Text>
+                                    ]} >{extractSessionDay({ sessiontype })} {sessiontime}</Text> */}
                                 </TouchableOpacity>
 
                                 <Text style={[

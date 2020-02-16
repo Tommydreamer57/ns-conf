@@ -36,6 +36,7 @@ export default function Schedule({
         >
             {days.map(({ day, events }) => (
                 <Tab.Screen
+                    key={day}
                     name={day}
                 >
                     {() => (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ScrollView, View } from 'react-native';
+import { FlatList } from 'react-native';
 import EventTile from '../components/EventTile';
 import styles from '../styles/styles';
 

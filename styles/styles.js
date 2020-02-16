@@ -105,6 +105,9 @@ export default StyleSheet.create({
         fontSize: SIZES.small,
         fontWeight: 'normal',
     },
+    bold: {
+        fontWeight: 'bold',
+    },
     speakerphoto: {
         height: Window.width * 0.7,
         width: Window.width * 0.7,
@@ -148,7 +151,7 @@ export default StyleSheet.create({
         fontSize: SIZES.medium,
         fontWeight: 'bold',
     },
-    emptySession: {
+    emptyBreakout: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -201,6 +204,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: Window.width - SIZES.large * 2 - SIZES.xxSmall - SIZES.small * 2 - 2,
+        overflow: 'visible',
     },
     sessionTileBar: {
         height: '100%',
@@ -209,7 +213,8 @@ export default StyleSheet.create({
     },
     eventTile: {
         flexDirection: 'row',
-        width: Window.width - SIZES.large * 2 - SIZES.xxSmall - SIZES.small * 2 - 2,
+        // width: Window.width - SIZES.large * 2 - SIZES.xxSmall - SIZES.small * 2 - 2,
+        overflow: 'visible',
         // borderWidth: 1,
         // borderColor: COLORS.blue,
         // borderRadius: SIZES.xxSmall,

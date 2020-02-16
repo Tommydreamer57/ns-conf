@@ -16,7 +16,7 @@ export default function EmptyBreakout({
     return (
         <TouchableOpacity
             style={[
-                styles.emptySession,
+                styles.emptyBreakout,
                 styles.marginBottomMedium,
             ]}
             onPress={() => navigate('SelectBreakout', { breakout })}

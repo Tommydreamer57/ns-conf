@@ -43,6 +43,7 @@ export default function Navigation() {
         >
             {views.map(([name, component]) => (
                 <Stack.Screen
+                    key={name}
                     {...{
                         name,
                         component,

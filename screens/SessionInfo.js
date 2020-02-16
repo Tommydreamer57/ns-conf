@@ -1,8 +1,6 @@
 import React from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { StorageConsumer } from '../storage/StorageProvider';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import styles from '../styles/styles';
-import { extractSessionDay } from '../utils/sessions';
 
 SessionInfo.navigationOptions = { title: "Session Info" };
 
@@ -25,6 +23,7 @@ export default function SessionInfo({
                 moderator,
                 description,
             },
+            addedToSchedule,
         },
     },
 }) {
@@ -76,39 +75,35 @@ export default function SessionInfo({
                     styles.marginBottomXLarge
                 ]} >{speakerbio}</Text> */}
 
-                {scheduleArray.some(({
-                    selectedSession: {
-                        id: selectedId,
-                    } = {},
-                }) => selectedId === id) ? (
-                        <>
-                            <TouchableOpacity
-                                style={[
-                                    styles.button,
-                                    styles.marginTopMedium,
-                                ]}
-                                onPress={async () => {
-                                    await removeFromSchedule(id);
-                                    goBack();
-                                }}
-                            >
-                                <Text style={[
-                                    styles.buttonText,
-                                ]} >Remove From Schedule</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    styles.button,
-                                    styles.marginTopMedium,
-                                ]}
-                                onPress={() => navigate('SelectBreakout', { sessionName })}
-                            >
-                                <Text style={[
-                                    styles.buttonText,
-                                ]} >View Other Breakouts</Text>
-                            </TouchableOpacity>
-                        </>
-                    ) : (
+                {addedToSchedule ? (
+                    <>
+                        <TouchableOpacity
+                            style={[
+                                styles.button,
+                                styles.marginTopMedium,
+                            ]}
+                            onPress={async () => {
+                                await removeFromSchedule(id);
+                                goBack();
+                            }}
+                        >
+                            <Text style={[
+                                styles.buttonText,
+                            ]} >Remove From Schedule</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                styles.button,
+                                styles.marginTopMedium,
+                            ]}
+                            onPress={() => navigate('SelectBreakout', { sessionName })}
+                        >
+                            <Text style={[
+                                styles.buttonText,
+                            ]} >View Other Breakouts</Text>
+                        </TouchableOpacity>
+                    </>
+                ) : (
                         <TouchableOpacity
                             style={[
                                 styles.button,

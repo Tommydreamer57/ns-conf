@@ -1,7 +1,6 @@
 import React from 'react';
 import EmptyBreakout from '../components/EmptyBreakout';
 import EventTile from '../components/EventTile';
-import { Text } from 'react-native';
 
 export default function ScheduleEvent({
     event,
@@ -15,6 +14,7 @@ export default function ScheduleEvent({
         <EventTile
             event={selectedSession}
             navigation={navigation}
+            doNotRenderDescription={true}
         />
     ) : (
             type === 'Breakout' ? (
@@ -26,6 +26,7 @@ export default function ScheduleEvent({
                     <EventTile
                         event={event}
                         navigation={navigation}
+                        doNotRenderDescription={true}
                     />
                 )
         );

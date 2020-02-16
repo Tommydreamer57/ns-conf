@@ -52,7 +52,7 @@ export default function AllSpeakers({
                         styles.speakerButtonText,
                     ]} >{name}</Text>
                     <Ionicons
-                        name={iconPrefix + "arrow-forward"}
+                        name={`${iconPrefix}-arrow-forward`}
                         size={SIZES.large}
                         color={COLORS.darkGray}
                     />

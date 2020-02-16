@@ -1,48 +1,60 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/styles';
 import match from '../utils/match';
 import SessionSpeakers from './SessionSpeakers';
 
 export default function EventTile({
+    navigation: {
+        navigate,
+    },
     event,
     event: {
-        type,
+        type = '',
         title,
+        day,
         time,
         location = '',
         room = '',
         demographic,
-        description = '',
+        note,
+        description,
+        speakers,
         moderator,
         panelists,
     } = {},
     addedToSchedule = false,
+    doNotRenderDescription = false,
     doNotRenderTime = false,
+    renderDayInsteadOfSpeaker = false,
     highlightLocation = false,
 }) {
 
-    const LOC_DEM = location || room || demographic ? (
-        <Text
-            style={[
-                styles.h4,
-                highlightLocation ? styles.blueText : null,
-            ]}
-        >{location || room}{demographic ? ` - ${demographic}` : ''}</Text>
-    ) : null;
-
-    const DESCRIPTION = description ? (
-        <Text
-            style={styles.text}
-        >{description}</Text>
-    ) : null;
+    const Wrapper = (
+        type.match(/breakout.*session/i)
+        ||
+        speakers
+        ||
+        moderator
+        ||
+        panelists
+        ||
+        description
+    ) ?
+        TouchableOpacity
+        :
+        View;
 
     return (
-        <View
+        <Wrapper
             style={[
                 styles.eventTile,
                 styles.marginBottomLarge,
             ]}
+            {...Wrapper === TouchableOpacity && {
+                onPress: () => navigate('SessionInfo', { session: event }),
+            }}
         >
             <View
                 style={[
@@ -75,27 +87,46 @@ export default function EventTile({
                                     styles.blackText),
                         ]}
                     >{moderator && panelists ? 'Panel: ' : ''}{title}</Text>
-                    {doNotRenderTime ? null : (
+                    {renderDayInsteadOfSpeaker || doNotRenderTime ? null : (
                         <Text
                             style={styles.h4}
                         >{time}</Text>
                     )}
                 </View>
-                <SessionSpeakers
-                    session={event}
-                />
-                {(location || room).length > description.length ? (
-                    <>
-                        {DESCRIPTION}
-                        {LOC_DEM}
-                    </>
+                {renderDayInsteadOfSpeaker ? (
+                    <Text
+                        style={[
+                            styles.h3,
+                            styles.marginBottomXxSmall,
+                        ]}
+                    >{day} {time}</Text>
                 ) : (
-                        <>
-                            {LOC_DEM}
-                            {DESCRIPTION}
-                        </>
+                        <SessionSpeakers
+                            session={event}
+                        />
                     )}
+                {note ? (
+                    <Text
+                        style={[
+                            styles.text,
+                            styles.bold,
+                        ]}
+                    >{note}</Text>
+                ) : null}
+                {location || room || demographic ? (
+                    <Text
+                        style={[
+                            styles.h4,
+                            highlightLocation ? styles.blueText : null,
+                        ]}
+                    >{location || room}{demographic ? ` - ${demographic}` : ''}</Text>
+                ) : null}
+                {description && !doNotRenderDescription ? (
+                    <Text
+                        style={styles.text}
+                    >{description}</Text>
+                ) : null}
             </View>
-        </View>
+        </Wrapper>
     );
 }

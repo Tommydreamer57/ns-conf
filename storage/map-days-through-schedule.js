@@ -8,9 +8,10 @@ export default schedule => ({
             day: day.day,
             ...(event.type || '').match(/breakout/i) && {
                 sessions: (event.sessions || []).map(session => ({
-                    ...session,
-                    time: session.time || event.time,
+                    time: event.time,
+                    type: 'Breakout Session',
                     day: day.day,
+                    ...session,
                 })),
             },
         })),

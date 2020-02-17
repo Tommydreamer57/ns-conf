@@ -1,31 +1,31 @@
 {
-    "expo": {
-        "name": "North Star Conference App",
-        "description": "A tool for users to plan their conference, read bios, and provide feedback on their experience",
-        "slug": "ns-conf",
-        "privacy": "public",
-        "sdkVersion": "36.0.0",
-        "platforms": [
-            "ios",
-            "android",
-            "web"
-        ],
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/appIcon.png",
-        "splash": {
-            "image": "./assets/splashScreen.png",
-            "resizeMode": "cover",
-            "backgroundColor": "#F29F25"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "supportsTablet": true
-        }
+  "expo": {
+    "name": "North Star Conference App",
+    "description": "A tool for users to plan their conference, read bios, and provide feedback on their experience",
+    "slug": "ns-conf",
+    "privacy": "public",
+    "sdkVersion": "36.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/appIcon.png",
+    "splash": {
+      "image": "./assets/splashScreen.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#F29F25"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
     }
+  }
 }

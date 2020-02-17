@@ -46,6 +46,7 @@ export default function SelectBreakout({
                     addedToSchedule={title === selectedTitle}
                     doNotRenderTime={true}
                     highlightLocation={true}
+                    doNotRenderBreakoutTitle={true}
                 />
             )}
         />

@@ -92,7 +92,7 @@ export default function SessionInfo({
                             styles.text,
                             styles.marginBottomXxLarge,
                         ]}
-                    >{description} - TYPE: {type}</Text>
+                    >{description}</Text>
                 ) : null}
                 {type.match(/breakout.*session/i) ? (
                     isSelected(session) ? (
@@ -116,11 +116,13 @@ export default function SessionInfo({
                             />
                         )
                 ) : null}
-                <IconButton
-                    text={`View ${room} Map`}
-                    iconName="map"
-                    onPress={() => navigate("Map", { room })}
-                />
+                {room ? (
+                    <IconButton
+                        text={`View ${room} Map`}
+                        iconName="map"
+                        onPress={() => navigate("Map", { room })}
+                    />
+                ) : null}
                 <IconButton
                     text="Provide Feedback"
                     iconName="paper"

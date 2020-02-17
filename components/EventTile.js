@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StorageContext } from '../storage/StorageProvider';
 import styles from '../styles/styles';
 import match from '../utils/match';
 import SessionSpeakers from './SessionSpeakers';
@@ -29,7 +30,12 @@ export default function EventTile({
     doNotRenderTime = false,
     renderDayInsteadOfSpeaker = false,
     highlightLocation = false,
+    doNotRenderBreakoutTitle = false,
 }) {
+
+    const { getBreakout } = useContext(StorageContext);
+
+    const { title: breakoutTitle } = doNotRenderBreakoutTitle ? {} : getBreakout(event) || {};
 
     const Wrapper = (
         type.match(/session/i)
@@ -94,13 +100,21 @@ export default function EventTile({
                                 blue: styles.blueText,
                             }).otherwise(null),
                         ]}
-                    >{moderator && panelists ? 'Panel: ' : ''}{title}</Text>
+                    >{breakoutTitle ? breakoutTitle : `${moderator && panelists ? 'Panel: ' : ''}${title}`}</Text>
                     {renderDayInsteadOfSpeaker || doNotRenderTime ? null : (
                         <Text
                             style={styles.h4}
                         >{time}</Text>
                     )}
                 </View>
+                {breakoutTitle ? (
+                    <Text
+                        style={[
+                            styles.h3,
+                            styles.marginBottomXxSmall,
+                        ]}
+                    >{moderator && panelists ? 'Panel: ' : ''}{title}</Text>
+                ) : null}
                 {renderDayInsteadOfSpeaker ? (
                     <Text
                         style={[
@@ -111,6 +125,7 @@ export default function EventTile({
                 ) : (
                         <SessionSpeakers
                             session={event}
+                            doNotRenderPanelists={!!breakoutTitle}
                         />
                     )}
                 {note ? (

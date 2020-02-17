@@ -1,11 +1,10 @@
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React, { useContext } from 'react';
-import { Text } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import ScheduleEvent from '../components/ScheduleEvent';
 import { StorageContext } from '../storage/StorageProvider';
 import styles, { COLORS } from '../styles/styles';
-import ScheduleEvent from '../components/ScheduleEvent';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,9 +15,9 @@ export default function Schedule({
 }) {
     const { schedule: { days = [] } = {} } = useContext(StorageContext);
 
-    const todayString = new Date(Date.now()).toDateString();
+    const todayDate = new Date(Date.now()).getDate();
 
-    const today = days.find(({ date }) => new Date(date).toDateString() === todayString) || days[0] || {};
+    const today = days.find(({ date }) => new Date(date).getDate() === todayDate) || days[0] || {};
 
     return (
         <Tab.Navigator

@@ -179,6 +179,16 @@ export default StyleSheet.create({
         fontSize: SIZES.mSmall,
         fontWeight: 'bold',
     },
+    iconButton: {
+        flexDirection: 'row',
+        padding: SIZES.xSmall,
+    },
+    buttonIcon: {
+        marginRight: 'auto',
+    },
+    iconButtonText: {
+        marginRight: 'auto',
+    },
     speakerButton: {
         flexDirection: 'row',
         justifyContent: 'space-between',

@@ -5,7 +5,7 @@ import EventTile from '../components/EventTile';
 export default function ScheduleEvent({
     event,
     event: {
-        type,
+        type = '',
         selectedSession,
     },
     navigation,
@@ -17,7 +17,7 @@ export default function ScheduleEvent({
             doNotRenderDescription={true}
         />
     ) : (
-            type === 'Breakout' ? (
+            type.match(/breakout.*group/i) ? (
                 <EmptyBreakout
                     breakout={event}
                     navigation={navigation}

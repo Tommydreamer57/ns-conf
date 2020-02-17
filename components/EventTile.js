@@ -32,7 +32,7 @@ export default function EventTile({
 }) {
 
     const Wrapper = (
-        type.match(/breakout.*session/i)
+        type.match(/session/i)
         ||
         speakers
         ||
@@ -46,6 +46,22 @@ export default function EventTile({
         :
         View;
 
+    const color = (
+        Wrapper === View
+        ||
+        (
+            !addedToSchedule
+            &&
+            type.match(/session/)
+        )
+    ) ?
+        'black'
+        :
+        type.match(/keynote/i) ?
+            'green'
+            :
+            'blue';
+
     return (
         <Wrapper
             style={[
@@ -58,15 +74,11 @@ export default function EventTile({
         >
             <View
                 style={[
-                    match(type)
-                        .against({
-                            Social: styles.blueGreenBackground,
-                            Keynote: styles.blackBackground,
-                        })
-                        .otherwise(addedToSchedule ?
-                            styles.blueBackground
-                            :
-                            styles.blackBackground),
+                    match(color).against({
+                        black: styles.blackBackground,
+                        green: styles.blueGreenBackground,
+                        blue: styles.blueBackground,
+                    }).otherwise(null),
                     styles.sessionTileBar,
                 ]}
             />
@@ -76,15 +88,11 @@ export default function EventTile({
                         style={[
                             styles.h2,
                             styles.marginBottomXxSmall,
-                            match(type)
-                                .against({
-                                    Social: styles.blueGreenText,
-                                    Keynote: styles.blackText,
-                                })
-                                .otherwise(addedToSchedule ?
-                                    styles.blueText
-                                    :
-                                    styles.blackText),
+                            match(color).against({
+                                black: styles.blackText,
+                                green: styles.blueGreenText,
+                                blue: styles.blueText,
+                            }).otherwise(null),
                         ]}
                     >{moderator && panelists ? 'Panel: ' : ''}{title}</Text>
                     {renderDayInsteadOfSpeaker || doNotRenderTime ? null : (

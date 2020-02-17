@@ -10,7 +10,6 @@ export const iconPrefix = Platform.OS === "ios" ?
     "md";
 
 const links = [
-    // [
     {
         name: "SCHEDULE",
         to: "Schedule",

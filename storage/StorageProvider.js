@@ -3,6 +3,8 @@ import { asyncPipe, asyncTap } from '../utils/pipe';
 import getSpeakersFromSchedule from './get-speakers-from-schedule';
 import { fetchSchedule, selectOrUnselectBreakout } from './service';
 import mapDaysThroughSchedule from './map-days-through-schedule';
+import isBreakoutSelected from './is-breakout-selected';
+import getBreakoutParent from './get-breakout-parent';
 
 export const StorageContext = createContext();
 
@@ -33,6 +35,9 @@ export default function StorageProvider({
     const selectBreakout = selectOrUnselectBreakoutSession(true);
     const unselectBreakout = selectOrUnselectBreakoutSession(false);
 
+    const isSelected = isBreakoutSelected(schedule);
+    const getBreakout = getBreakoutParent(schedule);
+
     return (
         <StorageContext.Provider
             value={{
@@ -40,6 +45,8 @@ export default function StorageProvider({
                 speakers,
                 selectBreakout,
                 unselectBreakout,
+                isSelected,
+                getBreakout,
             }}
         >
             {children}

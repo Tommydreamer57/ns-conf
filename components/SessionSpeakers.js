@@ -8,6 +8,9 @@ export default function SessionSpeakers({
         panelists = [],
         moderator,
     },
+    doNotRenderPanelists = false,
+    onlyRenderPanelists = false,
+    style = styles.h3,
 }) {
     return (
         speakers.length
@@ -17,22 +20,20 @@ export default function SessionSpeakers({
         moderator
     ) ? (
             <View style={styles.marginBottomXxSmall} >
-                {speakers.length ? (
+                {speakers.length && !onlyRenderPanelists ? (
                     <Text
-                        style={styles.h3}
+                        style={style}
                     >{speakers.map(({ name }) => name).join(', ')}</Text>
                 ) : null}
-                {moderator ? (
+                {moderator && !onlyRenderPanelists ? (
                     <Text
-                        style={styles.h3}
+                        style={style}
                     >Moderator: {moderator.name}</Text>
                 ) : null}
-                {panelists.length ? (
-                    <>
-                        <Text
-                            style={styles.h3}
-                        >Panelists: {panelists.map(({ name }) => name).join(', ')}</Text>
-                    </>
+                {panelists.length && !doNotRenderPanelists ? (
+                    <Text
+                        style={style}
+                    >Panelists: {panelists.map(({ name }) => name).join(', ')}</Text>
                 ) : null}
             </View>
         ) : null;

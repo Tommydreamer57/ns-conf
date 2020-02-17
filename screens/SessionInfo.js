@@ -9,29 +9,33 @@ SessionInfo.navigationOptions = { title: "Session Info" };
 
 export default function SessionInfo({
     navigation: {
-        goBack,
         navigate,
     },
     route: {
         params: {
-            session,
-            session: {
+            title,
+        },
+    },
+}) {
+
+    const {
+        hashedEvents: {
+            [title]: session,
+            [title]: {
                 type = '',
-                title,
                 day,
                 time,
                 location,
                 room,
                 demographic,
-                speakers,
-                panelists,
-                moderator,
                 description,
-            },
+            } = {},
         },
-    },
-}) {
-    const { isSelected, getBreakout, selectBreakout, unselectBreakout } = useContext(StorageContext);
+        isSelected,
+        getBreakout,
+        selectBreakout,
+        unselectBreakout,
+    } = useContext(StorageContext);
 
     return (
         <ScrollView>
@@ -58,12 +62,14 @@ export default function SessionInfo({
                     session={session}
                     onlyRenderPanelists={true}
                 />
-                <Text
-                    style={[
-                        styles.h3,
-                        styles.marginBottomXxSmall,
-                    ]}
-                >{day} {time}</Text>
+                {day || time ? (
+                    <Text
+                        style={[
+                            styles.h3,
+                            styles.marginBottomXxSmall,
+                        ]}
+                    >{day} {time}</Text>
+                ) : null}
                 {location || room ? (
                     <Text
                         style={[
@@ -72,12 +78,14 @@ export default function SessionInfo({
                         ]}
                     >{location ? 'Location: ' : 'Room: '} {location || room}</Text>
                 ) : null}
-                <Text
-                    style={[
-                        styles.h4,
-                        styles.marginBottomLarge,
-                    ]}
-                >Demographic: {demographic}</Text>
+                {demographic ? (
+                    <Text
+                        style={[
+                            styles.h4,
+                            styles.marginBottomLarge,
+                        ]}
+                    >Demographic: {demographic}</Text>
+                ) : null}
                 {description ? (
                     <Text
                         style={[
@@ -97,7 +105,7 @@ export default function SessionInfo({
                             <IconButton
                                 iconName="eye"
                                 text="View Other Breakouts"
-                                onPress={() => navigate('SelectBreakout', { breakout: getBreakout(session) })}
+                                onPress={() => navigate('SelectBreakout', { title: (getBreakout(session) || {}).title })}
                             />
                         </>
                     ) : (
@@ -116,7 +124,7 @@ export default function SessionInfo({
                 <IconButton
                     text="Provide Feedback"
                     iconName="paper"
-                    onPress={() => navigate("Feedback", { session })}
+                    onPress={() => navigate("Feedback", { title })}
                 />
                 <Text>{JSON.stringify()}</Text>
             </View>

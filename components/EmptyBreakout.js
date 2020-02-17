@@ -7,7 +7,6 @@ export default function EmptyBreakout({
     navigation: {
         navigate,
     },
-    breakout,
     breakout: {
         title,
         time,
@@ -19,14 +18,14 @@ export default function EmptyBreakout({
                 styles.emptyBreakout,
                 styles.marginBottomMedium,
             ]}
-            onPress={() => navigate('SelectBreakout', { breakout })}
+            onPress={() => navigate('SelectBreakout', { title })}
         >
-            <Text style={[
-                styles.buttonText,
-            ]}>+ {title}</Text>
-            <Text style={[
-                styles.h4,
-            ]}>{time}</Text>
+            <Text
+                style={styles.buttonText}
+            >+ {title}</Text>
+            <Text
+                style={styles.h4}
+            >{time}</Text>
         </TouchableOpacity>
     )
 }

@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { StorageContext } from '../storage/StorageProvider';
 import styles, { COLORS } from '../styles/styles';
-import ScheduleEvent from './ScheduleEvent';
+import ScheduleEvent from '../components/ScheduleEvent';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,26 +34,33 @@ export default function Schedule({
                 },
             }}
         >
-            {days.map(({ day, events }) => (
-                <Tab.Screen
-                    key={day}
-                    name={day}
-                >
-                    {() => (
-                        <FlatList
-                            contentContainerStyle={styles.view}
-                            keyExtractor={({ title }) => title}
-                            data={events}
-                            renderItem={({ item }) => (
-                                <ScheduleEvent
-                                    event={item}
-                                    navigation={navigation}
-                                />
-                            )}
-                        />
-                    )}
-                </Tab.Screen>
-            ))}
+            {days.length ?
+                days.map(({ day, events }) => (
+                    <Tab.Screen
+                        key={day}
+                        name={day}
+                    >
+                        {() => (
+                            <FlatList
+                                contentContainerStyle={styles.view}
+                                keyExtractor={({ title }) => title}
+                                data={events}
+                                renderItem={({ item }) => (
+                                    <ScheduleEvent
+                                        event={item}
+                                        navigation={navigation}
+                                    />
+                                )}
+                            />
+                        )}
+                    </Tab.Screen>
+                ))
+                :
+                (
+                    <Tab.Screen>
+                        {() => null}
+                    </Tab.Screen>
+                )}
         </Tab.Navigator>
     );
 }

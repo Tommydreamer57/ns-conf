@@ -23,6 +23,7 @@ export default function SpeakerInfo({
             },
         } = {},
     } = useContext(StorageContext);
+    
     return (
         <ScrollView>
             <View style={styles.view}>

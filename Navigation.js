@@ -8,7 +8,6 @@ import Map from './screens/Map';
 import Schedule from './screens/Schedule';
 import SelectBreakout from './screens/SelectBreakout';
 import SessionInfo from './screens/SessionInfo';
-import SocialEvent from './screens/SocialEvent';
 import SpeakerInfo from './screens/SpeakerInfo';
 import { COLORS } from './styles/styles';
 
@@ -19,7 +18,6 @@ const views = Object.entries({
     SelectBreakout,
     SessionInfo,
     SpeakerInfo,
-    SocialEvent,
     Feedback,
     FeedbackSelect,
     Map,

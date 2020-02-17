@@ -69,7 +69,7 @@ export default function EventTile({
                 styles.marginBottomLarge,
             ]}
             {...Wrapper === TouchableOpacity && {
-                onPress: () => navigate('SessionInfo', { session: event }),
+                onPress: () => navigate('SessionInfo', { title }),
             }}
         >
             <View

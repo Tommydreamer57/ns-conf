@@ -1,6 +1,6 @@
 import React from 'react';
-import EmptyBreakout from '../components/EmptyBreakout';
-import EventTile from '../components/EventTile';
+import EmptyBreakout from './EmptyBreakout';
+import EventTile from './EventTile';
 
 export default function ScheduleEvent({
     event,

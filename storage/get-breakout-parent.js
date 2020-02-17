@@ -1,6 +1,5 @@
-import memoize from "../utils/memoize";
 
-export default memoize(({ days = [] }) => memoize(session => (
+export default ({ days = [] }) => session => (
     days.reduce((breakout, { events = [] }) => (
         breakout || events.find(({ time, type = '', sessions = [] } = {}) => (
             breakout || (
@@ -14,4 +13,4 @@ export default memoize(({ days = [] }) => memoize(session => (
             )
         ), null)
     ), null)
-)));
+);

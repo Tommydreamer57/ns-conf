@@ -18,8 +18,8 @@ const views = Object.entries({
     SelectBreakout,
     SessionInfo,
     SpeakerInfo,
-    Feedback,
-    FeedbackSelect,
+    // Feedback,
+    // FeedbackSelect,
     Map,
 });
 

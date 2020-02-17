@@ -13,6 +13,10 @@ Map.navigationOptions = ({
 });
 
 const MAPS = [{
+    match: /brighton.*alta/i,
+    name: "Brighton/Alta",
+    source: require('../assets/maps/BrightonAlta.png'),
+}, {
     match: /alta/i,
     name: "Alta",
     source: require('../assets/maps/Alta.png'),

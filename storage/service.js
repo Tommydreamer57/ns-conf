@@ -1,80 +1,69 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
-import { asyncPipe } from '../utils/pipe';
+import { AsyncStorage, Alert } from 'react-native';
+import { asyncPipe, asyncTap, apply } from '../utils/pipe';
+import addOrRemoveBreakout from './add-or-remove-breakout';
 
 // CONSTANTS
 
 const baseURL = 'http://ns-conf.lowrysoftware.com/api';
-const storage_key = 'SCHEDULE';
+
+const keys = {
+    timestamp: 'timestamp',
+    schedule: 'schedule',
+    feedback: 'feedback',
+};
+
+const validateKey = key => {
+    if (key in keys) return key;
+    else throw new Error(`Invalid key: ${key}`);
+}
 
 // UTILS
 
-const fetchPath = path => asyncPipe(
-    axios.get(`${baseURL}/${path}`),
+const fetchItem = key => asyncPipe(
+    axios.get(`${baseURL}/${validateKey(key)}`),
     ({ data }) => data,
+    apply(key, setItemInStorage),
 );
 
-const getScheduleStorage = () => asyncPipe(
-    AsyncStorage.getItem(storage_key),
+const getItemFromStorage = key => asyncPipe(
+    AsyncStorage.getItem(validateKey(key)),
     JSON.parse,
 );
 
-const setScheduleStorage = value => asyncPipe(
-    AsyncStorage.setItem(storage_key, JSON.stringify(value)),
+const setItemInStorage = (key, value) => asyncPipe(
+    AsyncStorage.setItem(validateKey(key), JSON.stringify(value)),
     () => value,
+);
+
+const shouldRefetch = () => asyncPipe(
+    Promise.all([
+        // check timestamp in storage
+        getItemFromStorage(keys.timestamp),
+        // check timestamp of latest update
+        fetchItem(keys.timestamp),
+    ]),
+    // compare timestamps
+    ([storageTimestamp = 0, timestamp = 1]) => storageTimestamp < timestamp,
+);
+
+const getItem = key => asyncPipe(
+    shouldRefetch(),
+    asyncTap(should => should && Alert.alert('Refetching')),
+    should => should ?
+        fetchItem(key)
+        :
+        getItemFromStorage(key),
+    apply(key, setItemInStorage),
 );
 
 // ACTIONS
 
-export const fetchSchedule = () => asyncPipe(
-    Promise.all([
-        // get stored schedule    
-        getScheduleStorage(),
-        // get the date of the latest schedule update
-        fetchPath('latest'),
-    ]),
-    // check when the schedule was updated
-    // compare against the latest update to the actual schedule
-    ([schedule, latest]) => !schedule || ((schedule.updatedAt || 0) < (latest || 1)) ?
-        // if the schedule has updates, fetch them
-        fetchPath('schedule')
-        :
-        // otherwise use existing schedule
-        schedule,
-    setScheduleStorage,
-);
+export const getSchedule = () => getItem(keys.schedule);
+export const getFeedback = () => getItem(keys.feedback);
 
 export const selectOrUnselectBreakout = select => breakout => asyncPipe(
-    fetchSchedule(),
-    schedule => ({
-        ...schedule,
-        days: schedule.days.map(day => ({
-            ...day,
-            events: day.events.map(event => (
-                (
-                    (event.type || '').match(/breakout/i)
-                    &&
-                    event.time === breakout.time
-                    &&
-                    event.sessions.some(({ title }) => title === breakout.title)
-                ) ?
-                    {
-                        ...event,
-                        selectedSession: select ?
-                            breakout
-                            :
-                            null,
-                    }
-                    :
-                    event
-            )),
-        })),
-    }),
-    setScheduleStorage,
+    getSchedule(),
+    addOrRemoveBreakout(select, breakout),
+    apply(keys.schedule, setItemInStorage),
 );
-
-export const submitReview = async review => asyncPipe(
-    axios.post('https://northstarconferenceadmin.herokuapp.com/api/review', review),
-    () => true,
-);
-

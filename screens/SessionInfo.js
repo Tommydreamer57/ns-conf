@@ -128,7 +128,6 @@ export default function SessionInfo({
                     iconName="paper"
                     onPress={() => navigate("Feedback", { title })}
                 />
-                <Text>{JSON.stringify()}</Text>
             </View>
         </ScrollView>
     );

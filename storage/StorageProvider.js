@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { asyncPipe, asyncTap, pipe } from '../utils/pipe';
 import getSpeakersFromSchedule from './get-speakers-from-schedule';
-import { fetchSchedule, selectOrUnselectBreakout } from './service';
+import { getSchedule, selectOrUnselectBreakout, getFeedback } from './service';
 import mapDaysThroughSchedule from './map-days-through-schedule';
 import isBreakoutSelected from './is-breakout-selected';
 import getBreakoutParent from './get-breakout-parent';
@@ -15,12 +15,13 @@ export default function StorageProvider({
     children,
 }) {
     const [schedule, setSchedule] = useState({});
+    const [feedback, setFeedback] = useState({});
     const [speakers, setSpeakers] = useState([]);
     const [hashedEvents, setHashedEvents] = useState({});
 
     useEffect(() => {
         asyncPipe(
-            fetchSchedule(),
+            getSchedule(),
             mapDaysThroughSchedule,
             asyncTap(setSchedule),
             asyncTap(schedule => pipe(
@@ -30,6 +31,10 @@ export default function StorageProvider({
             )),
             getSpeakersFromSchedule,
             asyncTap(setSpeakers),
+        );
+        asyncPipe(
+            getFeedback(),
+            setFeedback,
         );
     }, []);
 

@@ -54,6 +54,7 @@ export default function StorageProvider({
             value={{
                 schedule,
                 speakers,
+                feedback,
                 hashedEvents,
                 selectBreakout,
                 unselectBreakout,

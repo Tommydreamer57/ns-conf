@@ -37,46 +37,29 @@ export default function EventTile({
 
     const { title: breakoutTitle } = doNotRenderBreakoutTitle ? {} : getBreakout(event) || {};
 
-    const Wrapper = (
-        type.match(/session/i)
-        ||
-        speakers
-        ||
-        moderator
-        ||
-        panelists
-        ||
-        description
-    ) ?
-        TouchableOpacity
-        :
-        View;
-
     const color = (
-        Wrapper === View
+        type.match(/social/i)
         ||
         (
             !addedToSchedule
             &&
-            type.match(/session/)
+            type.match(/breakout.*session/i)
         )
     ) ?
-        'black'
+        'green'
         :
         type.match(/keynote/i) ?
-            'green'
+            'black'
             :
             'blue';
 
     return (
-        <Wrapper
+        <TouchableOpacity
             style={[
                 styles.eventTile,
                 styles.marginBottomLarge,
             ]}
-            {...Wrapper === TouchableOpacity && {
-                onPress: () => navigate('SessionInfo', { title }),
-            }}
+            onPress={() => navigate('SessionInfo', { title })}
         >
             <View
                 style={[
@@ -150,6 +133,6 @@ export default function EventTile({
                     >{description}</Text>
                 ) : null}
             </View>
-        </Wrapper>
+        </TouchableOpacity>
     );
 }

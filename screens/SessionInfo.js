@@ -1,9 +1,11 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useContext } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Linking, ScrollView, Text, View } from 'react-native';
 import IconButton from '../components/IconButton';
 import SessionSpeakers from '../components/SessionSpeakers';
 import { StorageContext } from '../storage/StorageProvider';
-import styles from '../styles/styles';
+import styles, { SIZES, COLORS } from '../styles/styles';
+import { iconPrefix } from './Home';
 
 SessionInfo.navigationOptions = { title: "Session Info" };
 
@@ -29,6 +31,7 @@ export default function SessionInfo({
                 room,
                 demographic,
                 description,
+                feedbackURL,
             } = {},
         },
         isSelected,
@@ -123,11 +126,23 @@ export default function SessionInfo({
                         onPress={() => navigate("Map", { room })}
                     />
                 ) : null}
-                <IconButton
-                    text="Provide Feedback"
-                    iconName="paper"
-                    onPress={() => navigate("Feedback", { title })}
-                />
+                {feedbackURL ? (
+                    <IconButton
+                        text={(
+                            <Text>
+                                Provide Feedback
+                                &nbsp;
+                                <Ionicons
+                                    name={`${iconPrefix}-open`}
+                                    size={SIZES.medium}
+                                    color={COLORS.blue}
+                                />
+                            </Text>
+                        )}
+                        iconName="paper"
+                        onPress={() => Linking.canOpenURL(feedbackURL) && Linking.openURL(feedbackURL)}
+                    />
+                ) : null}
             </View>
         </ScrollView>
     );

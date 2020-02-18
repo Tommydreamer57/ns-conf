@@ -43,7 +43,6 @@ export default function SelectBreakout({
                 <EventTile
                     event={session}
                     navigation={navigation}
-                    addedToSchedule={title === selectedTitle}
                     doNotRenderTime={true}
                     highlightLocation={true}
                     doNotRenderBreakoutTitle={true}

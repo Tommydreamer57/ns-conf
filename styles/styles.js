@@ -108,7 +108,7 @@ export default StyleSheet.create({
     bold: {
         fontWeight: 'bold',
     },
-    speakerphoto: {
+    speakerPhoto: {
         height: Window.width * 0.7,
         width: Window.width * 0.7,
         borderRadius: Window.width * 0.35,
@@ -116,6 +116,16 @@ export default StyleSheet.create({
         marginRight: Window.width * 0.15 - SIZES.large,
         marginBottom: SIZES.xLarge,
         backgroundColor: COLORS.gray,
+    },
+    miniSpeakerPhoto: {
+        height: SIZES.xxLarge,
+        width: SIZES.xxLarge,
+        borderRadius: 100,
+        marginRight: SIZES.small,
+    },
+    speakerButtonTitle: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     sliderLabels: {
         flexDirection: 'row',
@@ -179,6 +189,13 @@ export default StyleSheet.create({
         fontSize: SIZES.mSmall,
         fontWeight: 'bold',
     },
+    feedbackButton: {
+        borderColor: COLORS.blue,
+        borderWidth: 1,
+        borderRadius: SIZES.xxSmall,
+        padding: SIZES.small,
+        paddingTop: SIZES.xxSmall,
+    },
     iconButton: {
         flexDirection: 'row',
         padding: SIZES.xSmall,
@@ -200,9 +217,9 @@ export default StyleSheet.create({
     },
     speakerButtonText: {
         color: COLORS.black,
-        fontSize: SIZES.mSmall,
+        fontSize: SIZES.mLarge,
         fontWeight: 'bold',
-        width: '85%'
+        // width: '85%'
     },
     speakerButtonArrow: {
         fontSize: SIZES.mSmall,

@@ -12,13 +12,13 @@ const mapEventOntoSpeakers = event => speaker => ({
     events: [event],
 });
 
-const getSpeakerList = ({ days = [] } = {}) => days.reduce((allSpeakers, { events = [] }) => [
-    ...allSpeakers,
-    ...events.reduce((allSpeakers, event) => [
-        ...allSpeakers,
+const getSpeakerList = ({ days = [] } = {}) => days.reduce((Speakers, { events = [] }) => [
+    ...Speakers,
+    ...events.reduce((Speakers, event) => [
+        ...Speakers,
         ...(event.type || '').match(/breakout/i) ?
-            (event.sessions || []).reduce((allSpeakers, session) => [
-                ...allSpeakers,
+            (event.sessions || []).reduce((Speakers, session) => [
+                ...Speakers,
                 ...getSpeakersFromEvent(session).map(mapEventOntoSpeakers(session)),
             ], [])
             :

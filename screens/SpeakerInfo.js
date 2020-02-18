@@ -28,7 +28,7 @@ export default function SpeakerInfo({
         <ScrollView>
             <View style={styles.view}>
                 <Image
-                    style={styles.speakerphoto}
+                    style={styles.speakerPhoto}
                     source={{
                         uri: photo || 'https://www.nycc.edu/themes/nycc/images/default_profile.jpg'
                     }}

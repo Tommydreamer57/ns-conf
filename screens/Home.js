@@ -17,7 +17,7 @@ const links = [
     },
     {
         name: "SPEAKERS",
-        to: "AllSpeakers",
+        to: "Speakers",
         icon: "people",
     },
     {
@@ -27,7 +27,7 @@ const links = [
     },
     {
         name: "FEEDBACK",
-        to: "FeedbackSelect",
+        to: "Feedback",
         icon: "paper",
     },
     {

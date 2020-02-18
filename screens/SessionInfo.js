@@ -31,6 +31,9 @@ export default function SessionInfo({
                 room,
                 demographic,
                 description,
+                speakers,
+                moderator,
+                panelists,
                 feedbackURL,
             } = {},
         },
@@ -125,6 +128,21 @@ export default function SessionInfo({
                         iconName="map"
                         onPress={() => navigate("Map", { room })}
                     />
+                ) : null}
+                {speakers || moderator || panelists ? (
+                    speakers && speakers.length === 1 ? (
+                        <IconButton
+                            text={`View Speaker`}
+                            iconName="people"
+                            onPress={() => navigate("SpeakerInfo", { name: speakers[0].name })}
+                        />
+                    ) : (
+                            <IconButton
+                                text="View Speakers"
+                                iconName="people"
+                                onPress={() => navigate("Speakers", { title })}
+                            />
+                        )
                 ) : null}
                 {feedbackURL ? (
                     <IconButton

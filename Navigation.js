@@ -1,8 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import AllSpeakers from './screens/AllSpeakers';
+import Speakers from './screens/Speakers';
 import Feedback from './screens/Feedback';
-import FeedbackSelect from './screens/FeedbackSelect';
 import Home from './screens/Home';
 import Map from './screens/Map';
 import Schedule from './screens/Schedule';
@@ -13,13 +12,12 @@ import { COLORS } from './styles/styles';
 
 const views = Object.entries({
     Home,
-    AllSpeakers,
+    Speakers,
     Schedule,
     SelectBreakout,
     SessionInfo,
     SpeakerInfo,
     Feedback,
-    // FeedbackSelect,
     Map,
 });
 

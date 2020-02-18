@@ -25,7 +25,6 @@ export default function EventTile({
         moderator,
         panelists,
     } = {},
-    addedToSchedule = false,
     doNotRenderDescription = false,
     doNotRenderTime = false,
     renderDayInsteadOfSpeaker = false,
@@ -33,23 +32,20 @@ export default function EventTile({
     doNotRenderBreakoutTitle = false,
 }) {
 
-    const { getBreakout } = useContext(StorageContext);
+    const { getBreakout, isSelected } = useContext(StorageContext);
 
     const { title: breakoutTitle } = doNotRenderBreakoutTitle ? {} : getBreakout(event) || {};
 
-    const color = (
-        type.match(/social/i)
-        ||
+    const color = type.match(/keynote/i) ||
         (
-            !addedToSchedule
-            &&
             type.match(/breakout.*session/i)
-        )
-    ) ?
-        'green'
+            &&
+            !isSelected(event)
+        ) ?
+        'black'
         :
-        type.match(/keynote/i) ?
-            'black'
+        type.match(/social/i) ?
+            'green'
             :
             'blue';
 

@@ -154,7 +154,7 @@ export default function SessionInfo({
                                 <Ionicons
                                     name={`${iconPrefix}-open`}
                                     size={SIZES.medium}
-                                    color={COLORS.blue}
+                                    color={COLORS.blue + '88'}
                                 />
                             </Text>
                         )}

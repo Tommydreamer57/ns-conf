@@ -32,6 +32,7 @@ export default function Speakers({
         hashedEvents: {
             [title]: {
                 speakers: sessionSpeakers,
+                facilitator,
                 moderator,
                 panelists,
             } = {},
@@ -41,6 +42,7 @@ export default function Speakers({
     const speakerList = title ?
         [
             ...sessionSpeakers || [],
+            ...facilitator ? [facilitator] : [],
             ...moderator ? [moderator] : [],
             ...panelists || [],
         ]

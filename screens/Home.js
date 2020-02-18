@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Alert, Image, ImageBackground, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { sendMessage } from '../storage/service';
-import { SIZES, Window } from '../styles/styles';
+import { SIZES, Window, COLORS } from '../styles/styles';
 
 export const iconPrefix = Platform.OS === "ios" ?
     "ios"
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     background: {
         width: '100%',
         height: '100%',
+        backgroundColor: COLORS.orange,
     },
     topPadding: {
         resizeMode: 'contain',

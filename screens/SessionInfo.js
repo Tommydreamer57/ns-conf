@@ -32,6 +32,7 @@ export default function SessionInfo({
                 demographic,
                 description,
                 speakers,
+                facilitator,
                 moderator,
                 panelists,
                 feedbackURL,
@@ -92,14 +93,14 @@ export default function SessionInfo({
                         ]}
                     >Demographic: {demographic}</Text>
                 ) : null}
-                {description ? (
-                    <Text
-                        style={[
-                            styles.text,
-                            styles.marginBottomXxLarge,
-                        ]}
-                    >{description}</Text>
-                ) : null}
+                {/* {description ? ( */}
+                <Text
+                    style={[
+                        styles.text,
+                        styles.marginBottomXxLarge,
+                    ]}
+                >{description}</Text>
+                {/* ) : null} */}
                 {type.match(/breakout.*session/i) ? (
                     isSelected(session) ? (
                         <>
@@ -129,12 +130,12 @@ export default function SessionInfo({
                         onPress={() => navigate("Map", { room })}
                     />
                 ) : null}
-                {speakers || moderator || panelists ? (
-                    speakers && speakers.length === 1 ? (
+                {speakers || facilitator || moderator || panelists ? (
+                    facilitator || (speakers && speakers.length === 1) ? (
                         <IconButton
                             text={`View Speaker`}
                             iconName="people"
-                            onPress={() => navigate("SpeakerInfo", { name: speakers[0].name })}
+                            onPress={() => navigate("SpeakerInfo", { name: (facilitator || speakers[0]).name })}
                         />
                     ) : (
                             <IconButton

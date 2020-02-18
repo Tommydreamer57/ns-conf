@@ -14,7 +14,6 @@ export default function ScheduleEvent({
         <EventTile
             event={selectedSession}
             navigation={navigation}
-            doNotRenderDescription={true}
         />
     ) : (
             type.match(/breakout.*group/i) ? (
@@ -26,7 +25,6 @@ export default function ScheduleEvent({
                     <EventTile
                         event={event}
                         navigation={navigation}
-                        doNotRenderDescription={true}
                     />
                 )
         );

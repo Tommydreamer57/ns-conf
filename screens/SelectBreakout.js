@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text } from 'react-native';
 import EventTile from '../components/EventTile';
 import { StorageContext } from '../storage/StorageProvider';
 import styles from '../styles/styles';
@@ -24,21 +24,26 @@ export default function SelectBreakout({
     const {
         hashedEvents: {
             [title]: {
+                day,
+                time,
                 sessions = [],
-                selectedSession,
             } = {},
         },
     } = useContext(StorageContext);
-
-    const {
-        title: selectedTitle,
-    } = selectedSession || {};
 
     return (
         <FlatList
             contentContainerStyle={styles.view}
             keyExtractor={({ title }) => title}
             data={sessions}
+            ListHeaderComponent={() => (
+                <Text
+                    style={[
+                        styles.h1,
+                        styles.marginBottomXxLarge,
+                    ]}
+                >{day} {time}</Text>
+            )}
             renderItem={({ item: session }) => (
                 <EventTile
                     event={session}

@@ -20,16 +20,13 @@ export default function EventTile({
         room = '',
         demographic,
         note,
-        description,
-        speakers,
-        moderator,
         panelists,
     } = {},
-    doNotRenderDescription = false,
     doNotRenderTime = false,
     renderDayInsteadOfSpeaker = false,
     highlightLocation = false,
     doNotRenderBreakoutTitle = false,
+    emphasizeTitle = false,
 }) {
 
     const { getBreakout, isSelected } = useContext(StorageContext);
@@ -71,7 +68,10 @@ export default function EventTile({
                 <View style={styles.sessionHeader}>
                     <Text
                         style={[
-                            styles.h2,
+                            emphasizeTitle ?
+                                styles.h1
+                                :
+                                styles.h2,
                             styles.marginBottomXxSmall,
                             match(color).against({
                                 black: styles.blackText,
@@ -79,7 +79,7 @@ export default function EventTile({
                                 blue: styles.blueText,
                             }).otherwise(null),
                         ]}
-                    >{breakoutTitle ? breakoutTitle : `${moderator && panelists ? 'Panel: ' : ''}${title}`}</Text>
+                    >{breakoutTitle ? breakoutTitle : `${panelists ? 'Panel: ' : ''}${title}`}</Text>
                     {renderDayInsteadOfSpeaker || doNotRenderTime ? null : (
                         <Text
                             style={styles.h4}
@@ -92,7 +92,7 @@ export default function EventTile({
                             styles.h3,
                             styles.marginBottomXxSmall,
                         ]}
-                    >{moderator && panelists ? 'Panel: ' : ''}{title}</Text>
+                    >{panelists ? 'Panel: ' : ''}{title}</Text>
                 ) : null}
                 {renderDayInsteadOfSpeaker ? (
                     <Text
@@ -122,11 +122,6 @@ export default function EventTile({
                             highlightLocation ? styles.blueText : null,
                         ]}
                     >{location || room}{demographic ? ` - ${demographic}` : ''}</Text>
-                ) : null}
-                {description && !doNotRenderDescription ? (
-                    <Text
-                        style={styles.text}
-                    >{description}</Text>
                 ) : null}
             </View>
         </TouchableOpacity>

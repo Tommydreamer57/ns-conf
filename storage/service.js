@@ -1,17 +1,21 @@
 import axios from 'axios';
-import { AsyncStorage, Alert } from 'react-native';
-import { asyncPipe, asyncTap, apply } from '../utils/pipe';
-import addOrRemoveBreakout from './add-or-remove-breakout';
+import { AsyncStorage } from 'react-native';
+import { apply, asyncPipe } from '../utils/pipe';
+
+// AsyncStorage.clear();
 
 // CONSTANTS
-
-const baseURL = 'http://ns-conf.lowrysoftware.com/api';
 
 const keys = {
     timestamp: 'timestamp',
     schedule: 'schedule',
     feedback: 'feedback',
+    selections: 'selections',
 };
+
+Object.entries(keys).forEach(([key, value]) => {
+    if (key !== value) throw new Error(`Key ${key} !== value ${value}`);
+});
 
 const validateKey = key => {
     if (key in keys) return key;
@@ -20,20 +24,23 @@ const validateKey = key => {
 
 // UTILS
 
-const fetchItem = key => asyncPipe(
-    axios.get(`${baseURL}/${validateKey(key)}`),
-    ({ data }) => data,
-    apply(key, setItemInStorage),
-);
-
 const getItemFromStorage = key => asyncPipe(
-    AsyncStorage.getItem(validateKey(key)),
+    validateKey(key),
+    AsyncStorage.getItem,
     JSON.parse,
 );
 
 const setItemInStorage = (key, value) => asyncPipe(
-    AsyncStorage.setItem(validateKey(key), JSON.stringify(value)),
+    value,
+    JSON.stringify,
+    apply(key, AsyncStorage.setItem),
     () => value,
+);
+
+const fetchItem = key => asyncPipe(
+    axios.get(`http://ns-conf.lowrysoftware.com/api/${key}`),
+    ({ data }) => data,
+    apply(key, setItemInStorage),
 );
 
 const shouldRefetch = () => asyncPipe(
@@ -49,7 +56,6 @@ const shouldRefetch = () => asyncPipe(
 
 const getItem = key => asyncPipe(
     shouldRefetch(),
-    asyncTap(should => should && Alert.alert('Refetching')),
     should => should ?
         fetchItem(key)
         :
@@ -59,11 +65,17 @@ const getItem = key => asyncPipe(
 
 // ACTIONS
 
-export const getSchedule = () => getItem(keys.schedule);
 export const getFeedback = () => getItem(keys.feedback);
+export const getSchedule = () => getItem(keys.schedule);
+export const getSelections = () => getItemFromStorage(keys.selections);
 
-export const selectOrUnselectBreakout = select => breakout => asyncPipe(
-    getSchedule(),
-    addOrRemoveBreakout(select, breakout),
-    apply(keys.schedule, setItemInStorage),
+export const hashBreakout = ({ day, time } = {}) => `<${day}><${time}>`;
+
+export const selectOrUnselectBreakout = (select, { day, time, room }) => asyncPipe(
+    getItemFromStorage(keys.selections),
+    selections => ({
+        ...selections,
+        [hashBreakout({ day, time })]: select ? room : undefined,
+    }),
+    apply(keys.selections, setItemInStorage)
 );

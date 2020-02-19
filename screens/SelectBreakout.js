@@ -28,7 +28,7 @@ export default function SelectBreakout({
                 time,
                 sessions = [],
             } = {},
-        },
+        } = {},
     } = useContext(StorageContext);
 
     return (

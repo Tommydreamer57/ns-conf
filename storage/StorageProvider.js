@@ -1,11 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { asyncPipe, asyncTap, pipe } from '../utils/pipe';
+import { apply, compose, tap } from '../utils/pipe';
 import getSpeakersFromSchedule from './get-speakers-from-schedule';
-import { getSchedule, selectOrUnselectBreakout, getFeedback } from './service';
-import mapDaysThroughSchedule from './map-days-through-schedule';
-import isBreakoutSelected from './is-breakout-selected';
-import getBreakoutParent from './get-breakout-parent';
 import hashEvents from './hash-events';
+import mapSelectionsOntoSchedule from './map-selections-onto-schedule';
+import { getFeedback, getSchedule, getSelections, selectOrUnselectBreakout } from './service';
 
 export const StorageContext = createContext();
 
@@ -14,42 +12,35 @@ export const StorageConsumer = StorageContext.Consumer;
 export default function StorageProvider({
     children,
 }) {
-    const [schedule, setSchedule] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [scheduleWithoutSelections, setSchedule] = useState({});
+    const [selections, setSelections] = useState({});
     const [feedback, setFeedback] = useState({});
     const [speakers, setSpeakers] = useState([]);
-    const [hashedEvents, setHashedEvents] = useState({});
 
     useEffect(() => {
-        asyncPipe(
-            getSchedule(),
-            mapDaysThroughSchedule,
-            asyncTap(setSchedule),
-            asyncTap(schedule => pipe(
-                schedule,
-                hashEvents,
-                setHashedEvents,
+        Promise.all([
+            getFeedback().then(setFeedback),
+            getSelections().then(setSelections),
+            getSchedule().then(compose(
+                tap(setSchedule),
+                tap(compose(
+                    getSpeakersFromSchedule,
+                    setSpeakers,
+                )),
             )),
-            getSpeakersFromSchedule,
-            asyncTap(setSpeakers),
-        );
-        asyncPipe(
-            getFeedback(),
-            setFeedback,
-        );
+        ]).then(apply(false, setLoading));
     }, []);
 
-    const selectOrUnselectBreakoutSession = select => breakout => asyncPipe(
-        selectOrUnselectBreakout(select)(breakout),
-        setSchedule,
-    );
+    const selectOrUnselectBreakoutSession = select => breakout => selectOrUnselectBreakout(select, breakout).then(setSelections);
 
     const selectBreakout = selectOrUnselectBreakoutSession(true);
     const unselectBreakout = selectOrUnselectBreakoutSession(false);
 
-    const isSelected = isBreakoutSelected(schedule);
-    const getBreakout = getBreakoutParent(schedule);
+    const schedule = mapSelectionsOntoSchedule(selections, scheduleWithoutSelections);
+    const hashedEvents = hashEvents(schedule);
 
-    return (
+    return loading ? null : (
         <StorageContext.Provider
             value={{
                 schedule,
@@ -58,8 +49,6 @@ export default function StorageProvider({
                 hashedEvents,
                 selectBreakout,
                 unselectBreakout,
-                isSelected,
-                getBreakout,
             }}
         >
             {children}

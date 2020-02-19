@@ -8,7 +8,7 @@ export default function SessionSpeakers({
         panelists = [],
         moderator,
         facilitator,
-    },
+    } = {},
     doNotRenderPanelists = false,
     onlyRenderPanelists = false,
     style = styles.m3,

@@ -14,6 +14,7 @@ export default function EventTile({
     event: {
         type = '',
         title,
+        breakoutTitle,
         day,
         time,
         location = '',
@@ -21,6 +22,7 @@ export default function EventTile({
         demographic,
         note,
         panelists,
+        isSelected
     } = {},
     doNotRenderTime = false,
     renderDayInsteadOfSpeaker = false,
@@ -29,15 +31,11 @@ export default function EventTile({
     emphasizeTitle = false,
 }) {
 
-    const { getBreakout, isSelected } = useContext(StorageContext);
-
-    const { title: breakoutTitle } = doNotRenderBreakoutTitle ? {} : getBreakout(event) || {};
-
     const color = type.match(/keynote/i) ||
         (
             type.match(/breakout.*session/i)
             &&
-            !isSelected(event)
+            !isSelected
         ) ?
         'black'
         :
@@ -79,14 +77,18 @@ export default function EventTile({
                                 blue: styles.blueText,
                             }).otherwise(null),
                         ]}
-                    >{breakoutTitle ? breakoutTitle : `${panelists ? 'Panel: ' : ''}${title}`}</Text>
+                    >{(breakoutTitle && !doNotRenderBreakoutTitle) ?
+                        breakoutTitle
+                        :
+                        `${panelists ? 'Panel: ' : ''}${title}`
+                        }</Text>
                     {renderDayInsteadOfSpeaker || doNotRenderTime ? null : (
                         <Text
                             style={styles.h4}
                         >{time}</Text>
                     )}
                 </View>
-                {breakoutTitle ? (
+                {(breakoutTitle && !doNotRenderBreakoutTitle) ? (
                     <Text
                         style={[
                             styles.h3,
@@ -104,7 +106,7 @@ export default function EventTile({
                 ) : (
                         <SessionSpeakers
                             session={event}
-                            doNotRenderPanelists={!!breakoutTitle}
+                            doNotRenderPanelists={!doNotRenderBreakoutTitle}
                         />
                     )}
                 {note ? (

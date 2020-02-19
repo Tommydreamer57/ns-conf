@@ -24,6 +24,7 @@ export default function SessionInfo({
         hashedEvents: {
             [title]: session,
             [title]: {
+                breakoutTitle,
                 type = '',
                 day,
                 time,
@@ -31,15 +32,14 @@ export default function SessionInfo({
                 room,
                 demographic,
                 description,
+                isSelected,
                 speakers,
                 facilitator,
                 moderator,
                 panelists,
                 feedbackURL,
             } = {},
-        },
-        isSelected,
-        getBreakout,
+        } = {},
         selectBreakout,
         unselectBreakout,
     } = useContext(StorageContext);
@@ -93,16 +93,14 @@ export default function SessionInfo({
                         ]}
                     >Demographic: {demographic}</Text>
                 ) : null}
-                {/* {description ? ( */}
                 <Text
                     style={[
                         styles.text,
                         styles.marginBottomXxLarge,
                     ]}
                 >{description}</Text>
-                {/* ) : null} */}
                 {type.match(/breakout.*session/i) ? (
-                    isSelected(session) ? (
+                    isSelected ? (
                         <>
                             <IconButton
                                 text="Remove From Schedule"
@@ -112,7 +110,7 @@ export default function SessionInfo({
                             <IconButton
                                 iconName="eye"
                                 text="View Other Breakouts"
-                                onPress={() => navigate('SelectBreakout', { title: (getBreakout(session) || {}).title })}
+                                onPress={() => navigate('SelectBreakout', { title: breakoutTitle })}
                             />
                         </>
                     ) : (
@@ -133,7 +131,7 @@ export default function SessionInfo({
                 {speakers || facilitator || moderator || panelists ? (
                     facilitator || (speakers && speakers.length === 1) ? (
                         <IconButton
-                            text={`View Speaker`}
+                            text="View Speaker"
                             iconName="people"
                             onPress={() => navigate("SpeakerInfo", { name: (facilitator || speakers[0]).name })}
                         />

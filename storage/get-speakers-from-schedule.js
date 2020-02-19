@@ -1,10 +1,10 @@
-import { Alert } from "react-native";
-import { pipe, tap } from "../utils/pipe";
+import { pipe } from "../utils/pipe";
 
-const getSpeakersFromEvent = ({ speakers = [], moderator, panelists = [] } = {}) => [
-    ...speakers,
+const getSpeakersFromEvent = ({ speakers = [], facilitator, moderator, panelists = [] } = {}) => [
+    ...speakers || [],
+    ...facilitator? [facilitator] : [],
     ...moderator ? [moderator] : [],
-    ...panelists,
+    ...panelists || [],
 ];
 
 const mapEventOntoSpeakers = event => speaker => ({
@@ -12,13 +12,13 @@ const mapEventOntoSpeakers = event => speaker => ({
     events: [event],
 });
 
-const getSpeakerList = ({ days = [] } = {}) => days.reduce((Speakers, { events = [] }) => [
-    ...Speakers,
-    ...events.reduce((Speakers, event) => [
-        ...Speakers,
+const getSpeakerList = ({ days = [] } = {}) => days.reduce((speakers, { events = [] }) => [
+    ...speakers,
+    ...events.reduce((speakers, event) => [
+        ...speakers,
         ...(event.type || '').match(/breakout/i) ?
-            (event.sessions || []).reduce((Speakers, session) => [
-                ...Speakers,
+            (event.sessions || []).reduce((speakers, session) => [
+                ...speakers,
                 ...getSpeakersFromEvent(session).map(mapEventOntoSpeakers(session)),
             ], [])
             :

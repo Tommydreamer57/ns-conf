@@ -28,7 +28,7 @@ export default function Speakers({
 }) {
 
     const {
-        speakers,
+        speakers = {},
         hashedEvents: {
             [title]: {
                 speakers: sessionSpeakers,
@@ -36,7 +36,7 @@ export default function Speakers({
                 moderator,
                 panelists,
             } = {},
-        },
+        } = {},
     } = useContext(StorageContext);
 
     const speakerList = title ?

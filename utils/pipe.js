@@ -8,6 +8,8 @@ export const pipe = (arg, cb, ...callbacks) => {
         val;
 }
 
+export const compose = (...callbacks) => arg => pipe(arg, ...callbacks);
+
 export const asyncPipe = async (promise, cb, ...callbacks) => {
     try {
         const result = await promise;
@@ -24,7 +26,10 @@ export const asyncPipe = async (promise, cb, ...callbacks) => {
 
 export const spread = cb => argArr => cb(...argArr);
 
-export const apply = (val, cb) => (...args) => cb(val, ...args);
+export const apply = (...vals) => (...args) => vals[vals.length - 1](
+    ...vals.slice(0, vals.length - 1),
+    ...args,
+);
 
 export const tap = cb => arg => {
     cb(arg);

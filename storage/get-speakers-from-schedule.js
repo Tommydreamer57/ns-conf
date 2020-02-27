@@ -2,7 +2,7 @@ import { pipe } from "../utils/pipe";
 
 const getSpeakersFromEvent = ({ speakers = [], facilitator, moderator, panelists = [] } = {}) => [
     ...speakers || [],
-    ...facilitator? [facilitator] : [],
+    ...facilitator ? [facilitator] : [],
     ...moderator ? [moderator] : [],
     ...panelists || [],
 ];
@@ -26,11 +26,11 @@ const getSpeakerList = ({ days = [] } = {}) => days.reduce((speakers, { events =
     ], []),
 ], []);
 
-const reduceSpeakers = speakers => speakers.reduce((speakers, { name, bio, events = [] }) => ({
+const reduceSpeakers = speakers => speakers.reduce((speakers, { events = [], name, ...speaker }) => ({
     ...speakers,
     [name]: {
+        ...speaker,
         name,
-        bio,
         events: [
             ...(speakers[name] || {}).events || [],
             ...events,

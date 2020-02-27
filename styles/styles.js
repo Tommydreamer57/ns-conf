@@ -295,4 +295,7 @@ export default StyleSheet.create({
     blueGreenText: {
         color: COLORS.blueGreen,
     },
+    transparent: {
+        opacity: 0.33,
+    },
 });

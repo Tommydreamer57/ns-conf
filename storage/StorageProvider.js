@@ -3,7 +3,7 @@ import { apply, compose, tap } from '../utils/pipe';
 import getSpeakersFromSchedule from './get-speakers-from-schedule';
 import hashEvents from './hash-events';
 import mapSelectionsOntoSchedule from './map-selections-onto-schedule';
-import { getFeedback, getSchedule, getSelections, selectOrUnselectBreakout } from './service';
+import { getFeedback, getHomeLinks, getSchedule, getSelections, getTimestamp, selectOrUnselectBreakout } from './service';
 
 export const StorageContext = createContext();
 
@@ -12,22 +12,24 @@ export const StorageConsumer = StorageContext.Consumer;
 export default function StorageProvider({
     children,
 }) {
+    const [timestamp, setTimestamp] = useState(0);
     const [loading, setLoading] = useState(true);
     const [scheduleWithoutSelections, setSchedule] = useState({});
     const [selections, setSelections] = useState({});
     const [feedback, setFeedback] = useState({});
     const [speakers, setSpeakers] = useState([]);
+    const [homeLinks, setHomeLinks] = useState([]);
 
     useEffect(() => {
         Promise.all([
+            getTimestamp().then(setTimestamp),
+            getHomeLinks().then(setHomeLinks),
             getFeedback().then(setFeedback),
             getSelections().then(setSelections),
             getSchedule().then(compose(
                 tap(setSchedule),
-                tap(compose(
-                    getSpeakersFromSchedule,
-                    setSpeakers,
-                )),
+                getSpeakersFromSchedule,
+                setSpeakers,
             )),
         ]).then(apply(false, setLoading));
     }, []);
@@ -43,9 +45,11 @@ export default function StorageProvider({
     return loading ? null : (
         <StorageContext.Provider
             value={{
+                timestamp,
                 schedule,
                 speakers,
                 feedback,
+                homeLinks,
                 hashedEvents,
                 selectBreakout,
                 unselectBreakout,

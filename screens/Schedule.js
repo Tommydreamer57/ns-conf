@@ -5,7 +5,6 @@ import { FlatList } from 'react-native-gesture-handler';
 import ScheduleEvent from '../components/ScheduleEvent';
 import { StorageContext } from '../storage/StorageProvider';
 import styles, { COLORS } from '../styles/styles';
-import { Alert } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,8 +18,6 @@ export default function Schedule({
     const todayDate = new Date(Date.now()).getDay();
 
     const today = days.find(({ date }) => new Date(date).getDay() === todayDate) || days[0] || {};
-
-    // Alert.alert(`Today: ${today.day}, days: ${days.map(({ day }) => day).join(', ')}`);
 
     return (
         <Tab.Navigator

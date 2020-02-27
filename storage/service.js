@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
-import { apply, asyncPipe } from '../utils/pipe';
+import { AsyncStorage, Alert } from 'react-native';
+import { apply, asyncPipe, asyncTap } from '../utils/pipe';
 
 // AsyncStorage.clear();
 
@@ -11,6 +11,7 @@ const keys = {
     schedule: 'schedule',
     feedback: 'feedback',
     selections: 'selections',
+    home: 'home',
 };
 
 Object.entries(keys).forEach(([key, value]) => {
@@ -34,7 +35,7 @@ const setItemInStorage = (key, value) => asyncPipe(
     value,
     JSON.stringify,
     apply(key, AsyncStorage.setItem),
-    () => value,
+    () => value || undefined,
 );
 
 const fetchItem = key => asyncPipe(
@@ -65,6 +66,8 @@ const getItem = key => asyncPipe(
 
 // ACTIONS
 
+export const getTimestamp = () => getItem(keys.timestamp);
+export const getHomeLinks = () => getItem(keys.home)
 export const getFeedback = () => getItem(keys.feedback);
 export const getSchedule = () => getItem(keys.schedule);
 export const getSelections = () => getItemFromStorage(keys.selections);

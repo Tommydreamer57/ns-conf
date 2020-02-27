@@ -9,7 +9,7 @@ import { iconPrefix } from './Home';
 FeedBack.navigationOptions = { title: "Feedback" };
 
 export default function FeedBack() {
-    
+
     const {
         feedback: {
             links = [],
@@ -29,11 +29,13 @@ export default function FeedBack() {
                 },
             }) => (
                     <TouchableOpacity
+                        containerStyle={url ? null : styles.transparent}
                         style={[
                             styles.feedbackButton,
                             styles.marginBottomMedium,
                         ]}
-                        onPress={() => Linking.canOpenURL(url) && Linking.openURL(url)}
+                        disabled={!url}
+                        onPress={() => url && Linking.canOpenURL(url) && Linking.openURL(url)}
                     >
                         <View
                             style={styles.sessionHeader}
@@ -44,11 +46,13 @@ export default function FeedBack() {
                                     styles.marginBottomXxSmall,
                                 ]}
                             >{title}</Text>
-                            <Ionicons
-                                name={`${iconPrefix}-open`}
-                                size={SIZES.xLarge}
-                                color={COLORS.blue + '88'}
-                            />
+                            {url ? (
+                                <Ionicons
+                                    name={`${iconPrefix}-open`}
+                                    size={SIZES.xLarge}
+                                    color={COLORS.blue + '88'}
+                                />
+                            ) : null}
                         </View>
                         <Text
                             style={styles.h4}

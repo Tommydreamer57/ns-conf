@@ -1,8 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, Image, ImageBackground, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { sendMessage } from '../storage/service';
 import { SIZES, Window, COLORS } from '../styles/styles';
+import { StorageContext } from '../storage/StorageProvider';
 
 export const iconPrefix = Platform.OS === "ios" ?
     "ios"
@@ -30,16 +31,6 @@ const links = [
         to: "Feedback",
         icon: "paper",
     },
-    {
-        name: "DONATE",
-        url: "https://www.northstarlds.org/donate",
-        icon: "cash",
-    },
-    {
-        name: "AUDIO",
-        url: "https://vimeo.com/ondemand/northstar2018/256616872",
-        icon: "play-circle",
-    },
 ];
 
 Home.navigationOptions = {
@@ -51,6 +42,7 @@ export default function Home({
         navigate,
     },
 }) {
+    const { homeLinks = [] } = useContext(StorageContext);
     return (
         <ImageBackground
             source={require('../assets/BKGD.png')}
@@ -63,7 +55,10 @@ export default function Home({
             <View
                 style={styles.links}
             >
-                {links.map(({
+                {[
+                    ...links,
+                    ...homeLinks,
+                ].map(({
                     to,
                     icon,
                     name,
@@ -149,8 +144,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        overflow: 'visible',
         padding: SIZES.small,
         marginBottom: SIZES.medium,
+        // borderColor: COLORS.white,
+        // borderWidth: 1,
     },
     text: {
         color: 'white',
@@ -158,5 +156,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginLeft: SIZES.xLarge,
         textTransform: 'lowercase',
+        overflow: 'visible',
     },
 });

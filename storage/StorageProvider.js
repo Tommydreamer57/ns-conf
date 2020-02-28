@@ -12,7 +12,6 @@ export const StorageConsumer = StorageContext.Consumer;
 export default function StorageProvider({
     children,
 }) {
-    const [timestamp, setTimestamp] = useState(0);
     const [loading, setLoading] = useState(true);
     const [scheduleWithoutSelections, setSchedule] = useState({});
     const [selections, setSelections] = useState({});
@@ -22,7 +21,6 @@ export default function StorageProvider({
 
     useEffect(() => {
         Promise.all([
-            getTimestamp().then(setTimestamp),
             getHomeLinks().then(setHomeLinks),
             getFeedback().then(setFeedback),
             getSelections().then(setSelections),
@@ -45,7 +43,6 @@ export default function StorageProvider({
     return loading ? null : (
         <StorageContext.Provider
             value={{
-                timestamp,
                 schedule,
                 speakers,
                 feedback,

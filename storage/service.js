@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { AsyncStorage, Alert } from 'react-native';
-import { apply, asyncPipe, asyncTap } from '../utils/pipe';
-
-// AsyncStorage.clear();
+import { AsyncStorage } from 'react-native';
+import { apply, asyncPipe } from '../utils/pipe';
 
 // CONSTANTS
 
@@ -29,6 +27,7 @@ const getItemFromStorage = key => asyncPipe(
     validateKey(key),
     AsyncStorage.getItem,
     JSON.parse,
+    value => value || undefined,
 );
 
 const setItemInStorage = (key, value) => asyncPipe(
@@ -39,34 +38,34 @@ const setItemInStorage = (key, value) => asyncPipe(
 );
 
 const fetchItem = key => asyncPipe(
-    axios.get(`http://ns-conf.lowrysoftware.com/api/${key}`),
+    axios.get(`http://ns-conf.lowrysoftware.com/api/2/${key}`),
     ({ data }) => data,
     apply(key, setItemInStorage),
 );
 
-const shouldRefetch = () => asyncPipe(
+const shouldRefetch = key => asyncPipe(
     Promise.all([
         // check timestamp in storage
-        getItemFromStorage(keys.timestamp),
+        getItemFromStorage(validateKey(key)),
         // check timestamp of latest update
         fetchItem(keys.timestamp),
     ]),
-    // compare timestamps
-    ([storageTimestamp = 0, timestamp = 1]) => storageTimestamp < timestamp,
+    // compare timestamps -- ignore anything that was before api version 2
+    ([{ timestamp: storageTimestamp = 0 } = {}, { timestamp = 1 } = {}]) => storageTimestamp < Math.max(1582844213530, timestamp),
 );
 
 const getItem = key => asyncPipe(
-    shouldRefetch(),
+    shouldRefetch(key),
     should => should ?
         fetchItem(key)
         :
         getItemFromStorage(key),
     apply(key, setItemInStorage),
+    ({ data }) => data,
 );
 
 // ACTIONS
 
-export const getTimestamp = () => getItem(keys.timestamp);
 export const getHomeLinks = () => getItem(keys.home)
 export const getFeedback = () => getItem(keys.feedback);
 export const getSchedule = () => getItem(keys.schedule);

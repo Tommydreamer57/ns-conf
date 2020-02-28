@@ -25,7 +25,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.northstarlds.conference",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.northstarlds.conference",
+      "versionCode": 1,
+      "permissions": []
     }
   }
 }

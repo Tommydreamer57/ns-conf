@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
         width: Window.width * 1.2,
         marginLeft: Window.width * -0.1,
         marginRight: Window.width * -0.1,
-        marginTop: Window.height * 0.03,
         height: Window.height * 0.35,
         marginBottom: Window.height * -0.025,
     },
@@ -145,10 +144,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         overflow: 'visible',
-        padding: SIZES.small,
         marginBottom: SIZES.medium,
-        // borderColor: COLORS.white,
-        // borderWidth: 1,
     },
     text: {
         color: 'white',

@@ -122,6 +122,7 @@ export default StyleSheet.create({
         width: SIZES.xxLarge,
         borderRadius: 100,
         marginRight: SIZES.small,
+        backgroundColor: COLORS.gray,
     },
     speakerButtonTitle: {
         flexDirection: 'row',

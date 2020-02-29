@@ -117,13 +117,21 @@ export default function EventTile({
                         ]}
                     >{note}</Text>
                 ) : null}
-                {location || room || demographic ? (
+                {location ? (
                     <Text
                         style={[
                             styles.h4,
                             highlightLocation ? styles.blueText : null,
                         ]}
-                    >{location || room}{demographic ? ` - ${demographic}` : ''}</Text>
+                    >{location}</Text>
+                ) : null}
+                {room || demographic ? (
+                    <Text
+                        style={[
+                            styles.h4,
+                            highlightLocation ? styles.blueText : null,
+                        ]}
+                    >{room}{demographic ? ` - ${demographic}` : ''}</Text>
                 ) : null}
             </View>
         </TouchableOpacity>

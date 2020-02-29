@@ -77,13 +77,21 @@ export default function SessionInfo({
                         ]}
                     >{day} {time}</Text>
                 ) : null}
-                {location || room ? (
+                {location ? (
                     <Text
                         style={[
                             styles.h3,
                             styles.marginBottomXxSmall,
                         ]}
-                    >{location ? 'Location: ' : 'Room: '} {location || room}</Text>
+                    >Location: {location}</Text>
+                ) : null}
+                {room ? (
+                    <Text
+                        style={[
+                            styles.h3,
+                            styles.marginBottomXxSmall,
+                        ]}
+                    >Room: {room}</Text>
                 ) : null}
                 {demographic ? (
                     <Text

@@ -52,7 +52,7 @@ export const SIZES = {
     small: dynamicSize(11),
     xSmall: dynamicSize(8),
     xxSmall: dynamicSize(5),
-    homeIcon: dynamicSize(47.5),
+    homeIcon: dynamicSize(45),
 };
 
 export default StyleSheet.create({

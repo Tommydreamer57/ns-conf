@@ -45,11 +45,11 @@ export default function Home({
     const { homeLinks = [] } = useContext(StorageContext);
     return (
         <ImageBackground
-            source={require('../assets/BKGD.png')}
+            source={require('../assets/home.png')}
             style={styles.background}
         >
             <Image
-                source={require('../assets/LogoTop.png')}
+                source={require('../assets/logo-top.png')}
                 style={styles.topPadding}
             />
             <View
@@ -68,17 +68,15 @@ export default function Home({
                             key={name}
                             style={styles.homeLink}
                             onPress={to ?
-
                                 () => navigate(to)
                                 :
                                 Platform.OS === 'android' && url.match(/sms/) ?
                                     sendMessage
                                     :
-                                    () =>
-                                        Linking.canOpenURL(url) ?
-                                            Linking.openURL(url)
-                                            :
-                                            Alert.alert(`Cannot open url: ${url}`)}
+                                    () => Linking.canOpenURL(url) ?
+                                        Linking.openURL(url)
+                                        :
+                                        Alert.alert(`Cannot open url: ${url}`)}
                         >
                             <Ionicons
                                 name={`${iconPrefix}-${icon}`}

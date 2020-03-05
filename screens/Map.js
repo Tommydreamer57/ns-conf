@@ -29,21 +29,21 @@ const MAPS = [{
     name: "Brighton",
     source: require('../assets/maps/Brighton.png'),
 }, {
-    match: /deer\s*valley/i,
+    match: /deer.*valley/i,
     name: "Deer Valley",
     source: require('../assets/maps/DeerValley.png'),
-}, {
-    match: /executive\s*board/i,
-    name: "Executive Board",
-    source: require('../assets/maps/ExecutiveBoard.png'),
 }, {
     match: /ballroom/i,
     name: "Grand Ballroom",
     source: require('../assets/maps/GrandBallroom.png'),
 }, {
     match: /powder/i,
-    name: "Powder Mountain",
+    name: "Powder Mtn/Solitude",
     source: require('../assets/maps/PowderMountain.png'),
+}, {
+    match: /wildcat.*sidewinder/i,
+    name: "Wildcat/Sidewinder",
+    source: require('../assets/maps/WildcatSidewinder.png'),
 }, {
     match: /sidewinder/i,
     name: "Sidewinder",
@@ -64,6 +64,18 @@ const MAPS = [{
     match: /wildcat/i,
     name: "Wildcat",
     source: require('../assets/maps/Wildcat.png'),
+}, {
+    match: /north.*star/i,
+    name: "North Star",
+    source: require('../assets/maps/NorthStar.png'),
+}, {
+    match: /zion/i,
+    name: "Zion",
+    source: require('../assets/maps/Zion.png'),
+}, {
+    match: /exec.*board/i,
+    name: "Executive Boardroom",
+    source: require('../assets/maps/ExecutiveBoardroom.png'),
 }, {
     match: /^/,
     name: "General",

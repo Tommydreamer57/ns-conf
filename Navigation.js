@@ -29,7 +29,7 @@ export default function Navigation() {
             initialRouteName="Home"
             screenOptions={{
                 cardStyle: {
-                    backgroundColor: COLORS.orange,
+                    backgroundColor: COLORS.white,
                 },
                 headerStyle: {
                     backgroundColor: COLORS.white,
